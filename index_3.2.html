@@ -15,22 +15,22 @@
             render();
         };
 
-        const render = () => {};
+        const render = () => {
+            ReactDOM.render(<App />, root);
+        };
         const App = () => {
-            //USE STATE is connected, can set initial value
             const data = React.useState(0);
 
-            // you can hold values inside of the array to other variable like this
             const [counter, modifier] = data;
 
             const countUp = () => {
-                // some codes are here
-                counter += 1;
+                // you can automatically trigger the rendering by call modifier function!
+                modifier(counter + 1);
             };
             return (
                 <div>
                     <h3 id="title">counter : {counter}</h3>
-                    <button>Click me! </button>
+                    <button onClick={countUp}>Click me! </button>
                 </div>
             );
         };
