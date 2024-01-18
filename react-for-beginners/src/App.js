@@ -2,42 +2,23 @@ import Button from "./Button";
 import styles from "./App.module.css"
 import { useState, useEffect } from 'react';
 
+const Hello = () => {
+  useEffect(() => {
+    console.log("Component Created!")
+    return () => console.log("Component Destroyed")
+  }, [])
+  return <h1>Hello</h1>;
+}
 
-// useEffect -> call once at the render time
-// ( first arg : the function we want to execute only once 
-//  second arg : )
+
 function App() {
+  const [showing, setShowing] = useState(false);
 
-
-  const [counter, setValue] = useState(0);
-  const [keyword, setKeyword] = useState("");
-
-  const onClick = () => setValue(prev => prev + 1);
-  const onChange = (event) => setKeyword(event.target.value);
-  console.log("This console runs all the Time ");
-
-  const RunOnlyOnce = () => {
-    console.log("This console runs only once");
-  };
-  useEffect(RunOnlyOnce,
-    []
-  );
-
-  useEffect(() => {
-    // if (keyword !== "" && keyword.length > 4) {
-    //   console.log("Search for", keyword);
-    // }
-    console.log("I run when 'keyword' changes");
-  }, [keyword]);
-
-  useEffect(() => {
-    console.log("I run when 'counter' changes");
-  }, [counter])
+  const onClick = () => setShowing((prev) => !prev);
   return (
     <div>
-      <input type="text" placeholder="Search here..." onChange={onChange} />
-      <h1 className={styles.title}>{counter}</h1>
-      <Button text="Click me" onClick={onClick} on></Button>
+      {showing ? <Hello /> : null}
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
     </div>
   );
 }
