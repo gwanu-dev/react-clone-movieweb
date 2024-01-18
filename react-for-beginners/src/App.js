@@ -2,24 +2,34 @@ import Button from "./Button";
 import styles from "./App.module.css"
 import { useState, useEffect } from 'react';
 
-const Hello = () => {
-  useEffect(() => {
-    console.log("Component Created!")
-    return () => console.log("Component Destroyed")
-  }, [])
-  return <h1>Hello</h1>;
-}
-
 
 function App() {
-  const [showing, setShowing] = useState(false);
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+  const onChange = (event) => {
+    setToDo(event.target.value);
+  }
 
-  const onClick = () => setShowing((prev) => !prev);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo === "") {
+      return;
+    }
+    setToDo("");
+    //toDos = "" DONT EVER MODIFY THE VALUE/STATE DIRECTLY!!!
+    // WE DO MODIFY THE VALUE BY THE FUNCTION!!
+    setToDos(currentState => [toDo, ...currentState]);
+    console.log(toDo);
+  }
   return (
     <div>
-      {showing ? <Hello /> : null}
-      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
-    </div>
+      <h1>MY DO TOS ({toDos.length})</h1>
+      {toDos.map((a, i) => { return <h3>{toDos[i]}</h3> })}
+      < form onSubmit={onSubmit}>
+        <input onChange={onChange} value={toDo} type="text" placeholder="Write your to do ..." />
+        <button>Add To Do</button>
+      </form>
+    </div >
   );
 }
 
